@@ -19,13 +19,11 @@ public class MainMenu {
                     Account currentAccount = LoginMenu.show(scanner);
 
                     if (currentAccount != null) {
-                        // Check role and route accordingly
                         switch (currentAccount.getRole()) {
                             case USER:
                                 UserMenu.show(currentAccount, scanner);
                                 break;
                             case ARTIST:
-                                // Check if artist is approved
                                 if (Database.getApprovedArtists().stream()
                                         .anyMatch(a -> a.getUsername().equals(currentAccount.getUsername()))) {
                                     ArtistMenu.show(currentAccount, scanner);
@@ -48,7 +46,7 @@ public class MainMenu {
 
                 case "0":
                     System.out.println("👋 Goodbye!");
-                    System.exit(0); // Exit the program
+                    System.exit(0); 
                     break;
 
                 default:
