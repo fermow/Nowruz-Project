@@ -30,7 +30,7 @@ public class AdminMenu {
                     break;
                 case "4":
                     System.out.println("Logged out.");
-                    MainMenu.show(scanner);  // برگشت به منوی اصلی
+                    MainMenu.show(scanner); 
                     return;
                 default:
                     System.out.println("Invalid choice.");
