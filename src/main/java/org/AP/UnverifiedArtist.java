@@ -3,13 +3,13 @@ public class UnverifiedArtist extends Account {
     private boolean isVerified;
 
     public UnverifiedArtist(String name, int age, String email, String username, String password) {
-        super(name, age, email, username,password ,Role.ARTIST);  // ارسال role به سازنده‌ی Account
-        this.isVerified = false;  // پیش‌فرض، هنرمند تایید نشده است
+        super(name, age, email, username,password ,Role.ARTIST);  
+        this.isVerified = false; 
     }
 
-    // متد verify
+    
     public void verify() {
-        this.isVerified = true;  // هنرمند تایید شد
+        this.isVerified = true; 
     }
 
     public boolean isVerified() {
