@@ -17,8 +17,6 @@ public class User extends Account implements Serializable {
             this.setRole(Role.USER);
 
     }
-
-    // افزودن ویژگی‌های خاص برای User در اینجا (در صورت نیاز)
     public String toString() {
         return String.format("User: %s (Username: %s)", getName(), getUsername());
     }
