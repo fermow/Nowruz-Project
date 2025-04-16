@@ -24,29 +24,29 @@ public class Song implements Serializable {
         this.lyrics = lyrics;
         this.releaseDate = releaseDate;
         this.genre = genre;
-        this.tags = new ArrayList<>(tags); // ایجاد کپی از لیست برای ایمنی
+        this.tags = new ArrayList<>(tags); 
         this.artistUsername = artistUsername;
         this.viewCount = 0;
     }
 
-    // ------------------- GETTERS ---------------------
+    
     public String getTitle() { return title; }
     public String getLyrics() { return lyrics; }
     public String getReleaseDate() { return releaseDate; }
     public String getGenre() { return genre; }
-    public List<String> getTags() { return new ArrayList<>(tags); } // بازگرداندن کپی
+    public List<String> getTags() { return new ArrayList<>(tags); } 
     public String getArtistUsername() { return artistUsername; }
     public int getViewCount() { return viewCount; }
     public List<Comment> getComments() { return new ArrayList<>(comments); }
     public List<EditRequest> getEditRequests() { return new ArrayList<>(editRequests); }
 
-    // ------------------- SETTERS ---------------------
+
     public void setLyrics(String lyrics) {
         this.lyrics = lyrics;
         Database.saveSongs();
     }
 
-    // ------------------- CUSTOM METHODS ---------------------
+
     public void incrementViewCount() {
         this.viewCount++;
         Database.saveSongs();
