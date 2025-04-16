@@ -28,35 +28,27 @@ public class Database {
             }
         }
 
-        checkAdminExists(); // این باید همیشه اجرا بشه، چه فایل وجود داشته باشه چه نه
+        checkAdminExists(); 
     }
-
-
-          // فرض بر این است که شما یک لیست از هنرمندان دارید
-
-        // متد برای برگرداندن لیست هنرمندان
         public static List<Artist> getArtists() {
             return artists;
         }
 
 
-
-    // چک کردن وجود ادمین در لیست اکانت‌ها
+    
     public static void checkAdminExists() {
         boolean adminExists = accounts.stream()
                 .anyMatch(account -> account.getRole() == Role.ADMIN);
 
         if (!adminExists) {
-            // ایجاد ادمین پیش‌فرض
             Account admin = new Account("Admin", 30, "admin@example.com", "admin", "admin123", Role.ADMIN);
-
             accounts.add(admin);
             saveAccounts();
             System.out.println("✅ Default admin account created.");
         }
     }
 
-    // ذخیره اکانت‌ها به فایل
+   
     public static void saveAccounts() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("accounts.dat"))) {
             out.writeObject(accounts);
@@ -67,16 +59,15 @@ public class Database {
         }
     }
 
-    // جستجوی اکانت بر اساس نام کاربری
+   
     public static Account getAccountByUsername(String username) {
         for (Account account : accounts) {
             if (account.getUsername().equals(username)) {
-                // اگر اکانت هنرمند است و هنوز تایید نشده است
                 if (account.getRole() == Role.ARTIST) {
                     for (UnverifiedArtist artist : pendingArtists) {
                         if (artist.getUsername().equals(username)) {
                             System.out.println("❌ This artist is not approved yet.");
-                            return null;  // هنرمند تایید نشده اجازه ورود ندارد
+                            return null; 
                         }
                     }
                 }
@@ -87,7 +78,7 @@ public class Database {
     }
 
     @SuppressWarnings("unchecked")
-    // بارگذاری هنرمندان در حال انتظار تایید از فایل
+   
     public static void loadPendingArtists() {
         File file = new File("pending_artists.dat");
         if (!file.exists()) {
@@ -103,7 +94,7 @@ public class Database {
         }
     }
 
-    // بارگذاری آهنگ‌ها از فایل
+    
     @SuppressWarnings("unchecked")
     public static void loadSongs() {
         File file = new File("songs.dat");
@@ -120,7 +111,7 @@ public class Database {
         }
     }
 
-    // بارگذاری آلبوم‌ها از فایل
+   
     @SuppressWarnings("unchecked")
     public static void loadAlbums() {
         File file = new File("albums.dat");
@@ -137,7 +128,7 @@ public class Database {
         }
     }
 
-    // ذخیره هنرمندان در حال انتظار به فایل
+  
     public static void savePendingArtists() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("pending_artists.dat"))) {
             out.writeObject(pendingArtists);
@@ -148,7 +139,7 @@ public class Database {
         }
     }
 
-    // ذخیره آهنگ‌ها به فایل
+   
     public static void saveSongs() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("songs.dat"))) {
             out.writeObject(songs);
@@ -159,7 +150,7 @@ public class Database {
         }
     }
 
-    // ذخیره آلبوم‌ها به فایل
+    
     public static void saveAlbums() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("albums.dat"))) {
             out.writeObject(albums);
@@ -170,54 +161,54 @@ public class Database {
         }
     }
 
-    // ذخیره حساب جدید
+    
     public static void saveAccount(Account newAccount) {
-        accounts.add(newAccount);  // اضافه کردن اکانت جدید به لیست
-        saveAccounts();  // ذخیره‌سازی دوباره لیست به فایل
+        accounts.add(newAccount);
+        saveAccounts();  
     }
 
-    // ذخیره هنرمندان تایید شده به لیست اکانت‌ها
+   
     public static void addApprovedArtistToAccounts(Artist artist) {
-        // بررسی اینکه آیا هنرمند با همین یوزرنیم قبلاً وجود دارد یا نه
+       
         for (Account account : accounts) {
             if (account.getUsername().equals(artist.getUsername())) {
                 System.out.println("❌ Artist with this username already exists.");
                 return;
             }
         }
-        accounts.add(artist);  // اضافه کردن هنرمند جدید به لیست
-        saveAccounts();  // ذخیره‌سازی دوباره لیست به فایل
+        accounts.add(artist); 
+        saveAccounts(); 
         System.out.println("✅ Artist added to the list.");
     }
 
-    // حذف هنرمند تایید نشده از لیست pending
+   
     public static void removePendingArtist(UnverifiedArtist artist) {
-        pendingArtists.remove(artist);  // حذف هنرمند تایید نشده از لیست pending
-        savePendingArtists();  // ذخیره‌سازی تغییرات لیست pending
+        pendingArtists.remove(artist);  
+        savePendingArtists();  
     }
 
-    // دریافت هنرمندان تایید شده
+    
     public static List<Account> getApprovedArtists() {
         return accounts.stream()
                 .filter(account -> account.getRole() == Role.ARTIST)
                 .collect(Collectors.toList());
     }
 
-    // اضافه کردن هنرمند تایید نشده به لیست pending
+    
     public static void addPendingArtist(UnverifiedArtist artist) {
-        pendingArtists.add(artist);  // اضافه کردن هنرمند جدید به لیست
-        savePendingArtists();        // ذخیره‌سازی دوباره لیست به فایل
+        pendingArtists.add(artist);  
+        savePendingArtists();        
         System.out.println("✅ Artist added to the pending artists list.");
     }
 
-    // دریافت کاربران ثبت‌نام‌شده
+    
     public static List<Account> getUsers() {
         return accounts.stream()
                 .filter(account -> account.getRole() == Role.USER)
                 .collect(Collectors.toList());
     }
 
-    // دریافت هنرمندان در حال انتظار تایید
+    
     public static List<UnverifiedArtist> getPendingArtists() {
         return pendingArtists;
     }
@@ -239,13 +230,9 @@ public class Database {
         saveSongs();
     }
 
-
-    // دریافت آهنگ‌ها
     public static List<Song> getSongs() {
         return songs;
     }
-
-    // دریافت آلبوم‌ها
     public static List<Album> getAlbums() {
         return albums;
     }
