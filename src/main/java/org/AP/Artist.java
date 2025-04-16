@@ -31,16 +31,13 @@ public class Artist extends Account implements Serializable {
     public void reject() {
         this.isVerified = false;
     }
-    // فالو کردن آرتیست
 
 
-    // متد افزودن آهنگ جدید به آرتیست
+
+   
     public void addSong(Song song) {
         this.songs.add(song);
     }
-
-    // متد افزودن پست جدید به آرتیست
-
 
 
 
