@@ -20,7 +20,7 @@ public class EditRequest implements Serializable {
     private final String songTitle;
     private LocalDateTime responseDate;
 
-    // ------------ Constructor ------------
+   
     public EditRequest(String username, String suggestedLyrics, String songTitle) {
         this.id = idCounter.incrementAndGet();
         this.username = username;
@@ -31,29 +31,20 @@ public class EditRequest implements Serializable {
         this.responseNote = "";
         this.responseDate = null;
     }
-
-    // ------------ Main Methods ------------
-    /**
-     * Approves the edit request with a response note
-     * @param note The approval note/comment
-     */
     public void approve(String note) {
         this.status = "Approved";
         this.responseNote = note != null ? note : "Approved by artist";
         this.responseDate = LocalDateTime.now();
     }
 
-    /**
-     * Rejects the edit request with a response note
-     * @param note The rejection note/comment
-     */
+   
     public void reject(String note) {
         this.status = "Rejected";
         this.responseNote = note != null ? note : "Rejected by artist";
         this.responseDate = LocalDateTime.now();
     }
 
-    // ------------ Accessor Methods ------------
+    
     public int getId() { return id; }
     public String getUsername() { return username; }
     public String getSuggestedLyrics() { return suggestedLyrics; }
@@ -62,46 +53,25 @@ public class EditRequest implements Serializable {
     public String getResponseNote() { return responseNote; }
     public String getSongTitle() { return songTitle; }
 
-    /**
-     * Gets the response date in formatted string
-     * @return Formatted date string or "N/A" if not responded
-     */
     public String getResponseDate() {
         return responseDate != null ?
                 responseDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) :
                 "N/A";
     }
-
-    // ------------ Status Check Methods ------------
-    /**
-     * Checks if request is pending
-     * @return true if status is "Pending"
-     */
     public boolean isPending() {
         return "Pending".equals(status);
     }
 
-    /**
-     * Checks if request is approved
-     * @return true if status is "Approved"
-     */
+
     public boolean isApproved() {
         return "Approved".equals(status);
     }
 
-    /**
-     * Checks if request has been responded to
-     * @return true if response date exists
-     */
     public boolean isResponded() {
         return responseDate != null;
     }
 
-    // ------------ Display Methods ------------
-    /**
-     * Formats the request for display
-     * @return Formatted string with all request details
-     */
+
     public String toDisplayString() {
         return String.format(
                 "╔════════ Edit Request ════════\n" +
@@ -127,7 +97,7 @@ public class EditRequest implements Serializable {
         );
     }
 
-    // ------------ Serialization Method ------------
+   
     @Override
     public String toString() {
         return String.format("%d|%s|%s|%s|%s|%s|%s|%s",
@@ -142,7 +112,7 @@ public class EditRequest implements Serializable {
         );
     }
 
-    // ------------ Builder Pattern (Optional) ------------
+    
     public static class Builder {
         private String username;
         private String suggestedLyrics;
