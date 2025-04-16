@@ -11,7 +11,7 @@ public class SignUpMenu {
         System.out.println("\n════════ CREATE ACCOUNT ════════");
         System.out.println("Join the Genius community!\n");
 
-        // دریافت اطلاعات با اعتبارسنجی
+        
         String name = getValidInput(scanner, "Full Name", "^[a-zA-Z ]{3,50}$",
                 "❌ Invalid name! Use 3-50 letters and spaces only");
 
@@ -36,14 +36,14 @@ public class SignUpMenu {
                 "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*#?&]{8,}$",
                 "❌ Minimum 8 chars with at least 1 letter and 1 number");
 
-        // انتخاب نوع حساب
+        
         System.out.println("\n════════ ACCOUNT TYPE ════════");
         System.out.println("1. 🧑 Regular User");
         System.out.println("2. 🎤 Artist Account (requires verification)");
         String roleChoice = getValidInput(scanner, "Choice [1-2]", "^[1-2]$",
                 "❌ Please enter 1 or 2");
 
-        // ایجاد حساب
+    
         Account newAccount = createAccount(roleChoice, name, age, email, username, password);
 
         if(newAccount != null) {
