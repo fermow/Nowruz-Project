@@ -71,15 +71,26 @@ public class SignUpMenu {
     private static Account createAccount(String roleChoice, String name, int age,
                                          String email, String username, String password) {
         try {
+            Account newAccount;
             if(roleChoice.equals("1")) {
-                return new User(name, age, email, username, password);
+                newAccount = new User(name, age, email, username, password);
             } else {
-                UnverifiedArtist artist = new UnverifiedArtist(name, age, email, username, password);
-                Database.addPendingArtist(artist);
-                return artist;
+                newAccount = new UnverifiedArtist(name, age, email, username, password);
+                Database.addPendingArtist((UnverifiedArtist) newAccount);
             }
+
+            // Add to accounts
+            Database.accounts.add(newAccount);
+            System.out.println("Account added to memory. Total accounts now: " + Database.accounts.size());
+
+            // Save to file
+            Database.saveAccounts();
+            System.out.println("Account saved to file.");
+
+            return newAccount;
         } catch (Exception e) {
             System.out.println("❌ Registration failed: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

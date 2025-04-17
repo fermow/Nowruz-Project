@@ -15,30 +15,30 @@ public class LoginMenu {
             String password = scanner.nextLine();
 
             Account account = Database.getAccountByUsername(username);
-            if (account != null && account.checkPassword(password)) {
-                System.out.println("✅ Login successful! Welcome, " + account.getUsername() + " 🎉");
+            if (account != null) {
+                if (account.checkPassword(password)) {
+                    System.out.println("✅ Login successful! Welcome, " + account.getUsername() + " 🎉");
 
-                
-                if (account.getRole() == Role.ARTIST) {
-                    boolean isPending = Database.getPendingArtists().stream()
-                            .anyMatch(a -> a.getUsername().equals(account.getUsername()));
-
-                    if (isPending) {
+                    // Check if it's a pending artist
+                    if (account.getRole() == Role.ARTIST &&
+                            Database.getPendingArtists().stream()
+                                    .anyMatch(a -> a.getUsername().equals(account.getUsername()))) {
                         System.out.println("❌ Your artist account is still pending approval by the admin.");
-                        return null; 
+                        return null;
                     }
-                }
 
-                return account; 
+                    return account;
+                } else {
+                    System.out.println("❌ Invalid password. Try again.");
+                }
             } else {
-                System.out.println("❌ Invalid username or password. Try again.");
+                System.out.println("❌ User not found. Try again.");
             }
         }
 
         System.out.println("⛔ Too many failed attempts. Returning to main menu...");
         return null;
     }
-
     public static Account show(Scanner scanner) {
         return signIn(scanner);
     }

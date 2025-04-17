@@ -14,21 +14,18 @@ public class Database {
 
     @SuppressWarnings("unchecked")
     public static void loadAccounts() {
-        File file = new File("accounts.dat");
-        if (!file.exists()) {
-            System.out.println("❌ No accounts found. Creating a new file...");
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("accounts.dat"))) {
+            accounts = (List<Account>) in.readObject();
+            System.out.println("✅ Accounts loaded. Count: " + accounts.size());
+        } catch (FileNotFoundException e) {
+            System.out.println("❌ No accounts file found. Creating new list.");
             accounts = new ArrayList<>();
-        } else {
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-                accounts = (List<Account>) in.readObject();
-                System.out.println("✅ Accounts have been loaded from file.");
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("❌ Failed to load accounts from file.");
-            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("❌ Error loading accounts. Creating new list.");
+            e.printStackTrace();
+            accounts = new ArrayList<>();
         }
-
-        checkAdminExists(); 
+        checkAdminExists();
     }
         public static List<Artist> getArtists() {
             return artists;
@@ -57,20 +54,21 @@ public class Database {
             e.printStackTrace();
             System.out.println("❌ Failed to save accounts to file.");
         }
+        System.out.println("Saving accounts. Current count: " + accounts.size());
+        for (Account acc : accounts) {
+            System.out.println(" - " + acc.getUsername());
+        }
+
     }
 
-   
+
     public static Account getAccountByUsername(String username) {
+        System.out.println("Searching for username: " + username);
+        System.out.println("Current accounts count: " + accounts.size());
+
         for (Account account : accounts) {
-            if (account.getUsername().equals(username)) {
-                if (account.getRole() == Role.ARTIST) {
-                    for (UnverifiedArtist artist : pendingArtists) {
-                        if (artist.getUsername().equals(username)) {
-                            System.out.println("❌ This artist is not approved yet.");
-                            return null; 
-                        }
-                    }
-                }
+            System.out.println("Checking account: " + account.getUsername());
+            if (account.getUsername().equalsIgnoreCase(username)) {
                 return account;
             }
         }
