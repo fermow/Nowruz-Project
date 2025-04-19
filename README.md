@@ -174,35 +174,4 @@ Sample data can be initialized (optional)
 
 * Future Improvements
 * Planned Features
-% JSON Migration:
 
-Transition from Java serialization to JSON
-
-Better cross-platform compatibility
-
-Human-readable data files
-
-Enhanced Features:
-
-Playlist functionality
-
-Song ratings system
-
-Advanced search filters
-
-Technical Upgrades:
-
-Password hashing (BCrypt)
-
-Activity logging
-
-Automated backups
-
-Architecture Improvements
-Database abstraction layer
-
-Dependency injection
-
-Proper exception hierarchy
-
-Comprehensive unit tests
